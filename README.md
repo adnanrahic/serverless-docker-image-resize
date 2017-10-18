@@ -41,14 +41,14 @@ serverless offline start
 
 Install required dependencies:
 
-1. Install Docker
+### 1. Install Docker
 ```
 $ sudo apt-get update
 
 $ sudo apt-get install docker-ce
 ```
 
-2. Install Docker Compose
+### 2. Install Docker Compose
 ```
 sudo curl -o /usr/local/bin/docker-compose -L "https://github.com/docker/compose/releases/download/1.16.1/docker-compose-$(uname -s)-$(uname -m)"
 
@@ -63,7 +63,7 @@ Output
 docker-compose version 1.16.1, build e12f3b9
 ```
 
-3. Run Docker Compose
+### 3. Run Docker Compose
 ```
 $ docker-compose up
 ```
@@ -79,7 +79,7 @@ To list all containers:
 $ docker ps -a
 ```
 
-4. Run the container
+### 4. Run the container
 List all containers and note the `containerid` of the container which was created by the command above.
 
 ```
@@ -88,7 +88,7 @@ $ docker run -rm -ti -d <containerid> sh
 
 Replace `<containerid>` with the id you noted above.
 
-5. Connect to the container
+### 5. Connect to the container
 
 Now you need to ssh into the container to access its command line interface.
 ```
@@ -97,7 +97,7 @@ $ docker attach <containerid>
 
 You will se the shell interface change. Now you're interacting with the container directly.
 
-6. Deploy the function
+### 6. Deploy the function
 
 Enter the `/deploy` directory to deploy the function
 ```
@@ -105,3 +105,14 @@ $ cd /deploy
 
 $ serverless deploy -v
 ```
+
+## Usage
+
+After the function has been deployed, you will receive an endpoint. You will add a query parameter to it in order to tell it how to resize the image.
+
+Example:
+```
+https://LAMBDA_ID.execute-api.us-east-1.amazonaws.com/dev/resize/get?key=420x360/IMAGE_NAME.jpg
+```
+
+This will resize the image in the fly and send you back the resized image while storing it for further reference.
