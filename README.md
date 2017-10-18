@@ -116,3 +116,6 @@ https://LAMBDA_ID.execute-api.us-east-1.amazonaws.com/dev/resize/get?key=420x360
 ```
 
 This will resize the image in the fly and send you back the resized image while storing it for further reference.
+
+## Credits
+The original tutorial for resizing S3 images I followed can be found [here](https://aws.amazon.com/blogs/compute/resize-images-on-the-fly-with-amazon-s3-aws-lambda-and-amazon-api-gateway/)!
