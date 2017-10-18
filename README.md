@@ -12,22 +12,22 @@ These instructions will get you a copy of the project up and running on your loc
 
 Clone to your local machine:
 ```
-git clone https://github.com/adnanrahic/serverless-docker-image-resize.git
+$ git clone https://github.com/adnanrahic/serverless-docker-image-resize.git
 ```
 
 Change into the cloned dir:
 ```
-cd serverless-docker-image-resize
+$ cd serverless-docker-image-resize
 ```
 
 Install Serverless globally:
 ```
-sudo npm install -g serverless
+$ sudo npm install -g serverless
 ```
 
 Install required dependencies:
 ```
-npm install
+$ npm install
 ```
 
 Add your AWS account keys in the `Dockerfile`. Change line 16 to accept proper keys to connect to your AWS account.
