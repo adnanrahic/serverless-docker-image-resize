@@ -1,0 +1,14 @@
+{
+  "name": "image-resize",
+  "version": "1.0.0",
+  "description": "Serverless image resizing",
+  "readme": "Serverless image resizing",
+  "main": "handler.js",
+  "dependencies": {
+    "sharp": "^0.18.4"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.36.0",
+    "serverless-offline": "^3.16.0"
+  }
+}

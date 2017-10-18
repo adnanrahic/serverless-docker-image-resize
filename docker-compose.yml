@@ -1,0 +1,8 @@
+version: "2.1"
+services:
+  web:
+    build: .
+    volumes:
+      - ./:/build
+    ports:
+      - "4000:3000"
