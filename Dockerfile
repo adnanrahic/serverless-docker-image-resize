@@ -1,7 +1,7 @@
 FROM amazonlinux
 
-# Create build directory
-WORKDIR /build
+# Create deploy directory
+WORKDIR /deploy
 
 # Install system dependencies
 RUN yum -y install gcc-c++
@@ -9,8 +9,12 @@ RUN curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -
 RUN yum -y install nodejs
 
 # Install serverless
-RUN npm install -g serverless && \
-    sls config credentials --provider aws --key xxx --secret xxx
+RUN npm install -g serverless
+
+# HERE'S WHERE YOU SHOULD
+# REPLACE `XYZ` WITH YOUR KEYS
+RUN sls config credentials --provider aws --key XYZ --secret XYZ
+
 
 # COPY package.json .
 COPY package.json ./
@@ -20,13 +24,3 @@ RUN npm install
 
 # Copy source
 COPY . .
-
-
-# EXPOSE 3000
-# CMD [ "sls", "offline", "start" ]
-
-# docs
-# $ docker-compose up
-# $ docker run -rm -ti -d <containername> sh
-# $ docker attach <containername>
-# $ sls deploy -v

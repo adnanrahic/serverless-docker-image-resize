@@ -3,6 +3,6 @@ services:
   web:
     build: .
     volumes:
-      - ./:/build
+      - ./:/deploy
     ports:
       - "4000:3000"
