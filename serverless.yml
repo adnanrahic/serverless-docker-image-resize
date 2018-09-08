@@ -8,6 +8,10 @@ custom:
     stage: dev
     createRoute53Record: true
 
+plugins:
+  - serverless-offline
+  - serverless-domain-manager
+
 provider:
   name: aws
   runtime: nodejs8.10
@@ -25,7 +29,6 @@ provider:
 
   environment:
     BUCKET: ${self:custom.secrets.BUCKET}
-    URL: ${self:custom.secrets.URL}
 
 functions:
   resize:
@@ -47,20 +50,21 @@ resources:
           ErrorDocument: error.html
           IndexDocument: index.html
           RoutingRules:
-            RedirectRule:
-              HostName: ${self:custom.secrets.DOMAIN}
-              HttpRedirectCode: "307"
-              Protocol: "https"
-              ReplaceKeyPrefixWith: "resize/get?key="
-            RoutingRuleCondition:
-              HttpErrorCodeReturnedEquals: "404"
-              KeyPrefixEquals: ""
+            - 
+              RedirectRule:
+                HostName: ${self:custom.secrets.DOMAIN}
+                HttpRedirectCode: "307"
+                Protocol: "https"
+                ReplaceKeyPrefixWith: "resize/get?key="
+              RoutingRuleCondition:
+                HttpErrorCodeReturnedEquals: "404"
+                KeyPrefixEquals: ""
     
     ImageResizeOnTheFlyPolicy:
       Type: AWS::S3::BucketPolicy
       Properties: 
         Bucket: 
-          Ref: ${self:custom.secrets.BUCKET}
+          Ref: ImageResizeOnTheFly
         PolicyDocument: 
           Statement: 
             - 
@@ -73,9 +77,6 @@ resources:
                   - 
                     - "arn:aws:s3:::"
                     - 
-                      Ref: ${self:custom.secrets.BUCKET}
+                      Ref: ImageResizeOnTheFly
                     - "/*"
               Principal: "*"
-
-plugins:
-  - serverless-offline
