@@ -1,27 +1,31 @@
-service: sls-js-image-resize-test
+service: image-resize-on-the-fly
 
 custom:
-  bucket: sls-js-image-resize-test
-  url: http://sls-js-image-resize-test.s3-website.eu-central-1.amazonaws.com
+  secrets: ${file(secrets.json)}
+  customDomain:
+    domainName: ${self:custom.secrets.DOMAIN}
+    basePath: ''
+    stage: dev
+    createRoute53Record: true
 
 provider:
   name: aws
-  runtime: nodejs6.10
+  runtime: nodejs8.10
   stage: dev
   region: us-east-1
   iamRoleStatements:
     - Effect: "Allow"
       Action:
         - "s3:ListBucket"
-      Resource: "arn:aws:s3:::${self:custom.bucket}"
+      Resource: "arn:aws:s3:::${self:custom.secrets.BUCKET}"
     - Effect: "Allow"
       Action:
         - "s3:PutObject"
-      Resource: "arn:aws:s3:::${self:custom.bucket}"
+      Resource: "arn:aws:s3:::${self:custom.secrets.BUCKET}"
 
   environment:
-    BUCKET: ${self:custom.bucket}
-    URL: ${self:custom.url}
+    BUCKET: ${self:custom.secrets.BUCKET}
+    URL: ${self:custom.secrets.URL}
 
 functions:
   resize:
@@ -30,6 +34,48 @@ functions:
       - http:
           path: resize/get
           method: get
+
+resources:
+  Resources:
+    
+    ImageResizeOnTheFly:
+      Type: AWS::S3::Bucket
+      Properties:
+        AccessControl: PublicReadWrite
+        BucketName: ${self:custom.secrets.BUCKET}
+        WebsiteConfiguration:
+          ErrorDocument: error.html
+          IndexDocument: index.html
+          RoutingRules:
+            RedirectRule:
+              HostName: ${self:custom.secrets.DOMAIN}
+              HttpRedirectCode: "307"
+              Protocol: "https"
+              ReplaceKeyPrefixWith: "resize/get?key="
+            RoutingRuleCondition:
+              HttpErrorCodeReturnedEquals: "404"
+              KeyPrefixEquals: ""
+    
+    ImageResizeOnTheFlyPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties: 
+        Bucket: 
+          Ref: ${self:custom.secrets.BUCKET}
+        PolicyDocument: 
+          Statement: 
+            - 
+              Action: 
+                - "s3:*"
+              Effect: "Allow"
+              Resource:
+                Fn::Join: 
+                  - ""
+                  - 
+                    - "arn:aws:s3:::"
+                    - 
+                      Ref: ${self:custom.secrets.BUCKET}
+                    - "/*"
+              Principal: "*"
 
 plugins:
   - serverless-offline

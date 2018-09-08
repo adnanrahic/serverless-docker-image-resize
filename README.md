@@ -119,3 +119,40 @@ This will resize the image in the fly and send you back the resized image while 
 
 ## Credits
 The original tutorial for resizing S3 images I followed can be found [here](https://aws.amazon.com/blogs/compute/resize-images-on-the-fly-with-amazon-s3-aws-lambda-and-amazon-api-gateway/)!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### rule
+
+```
+<RoutingRules>
+  <RoutingRule>
+    <Condition>
+      <KeyPrefixEquals/>
+      <HttpErrorCodeReturnedEquals>404</HttpErrorCodeReturnedEquals>
+    </Condition>
+    <Redirect>
+      <Protocol>https</Protocol>
+      <HostName>ek7fabz2a9.execute-api.us-east-1.amazonaws.com</HostName>
+      <ReplaceKeyPrefixWith>dev/resize/get?key=</ReplaceKeyPrefixWith>
+      <HttpRedirectCode>307</HttpRedirectCode>
+    </Redirect>
+  </RoutingRule>
+</RoutingRules>
+
+```
