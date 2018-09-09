@@ -2,20 +2,21 @@ service: image-resize-on-the-fly
 
 custom:
   secrets: ${file(secrets.json)}
-  customDomain:
-    domainName: ${self:custom.secrets.DOMAIN}
-    basePath: ''
-    stage: dev
-    createRoute53Record: true
+  # customDomain:
+  #   domainName: ${self:custom.secrets.DOMAIN}
+  #   basePath: ''
+  #   stage: dev
+  #   createRoute53Record: true
 
 plugins:
   - serverless-offline
-  - serverless-domain-manager
+  # - serverless-domain-manager
 
 provider:
   name: aws
   runtime: nodejs8.10
-  stage: dev
+  stage: ${env:STAGE, 'dev'}
+  profile: serverless-admin
   region: us-east-1
   iamRoleStatements:
     - Effect: "Allow"
@@ -55,7 +56,7 @@ resources:
                 HostName: ${self:custom.secrets.DOMAIN}
                 HttpRedirectCode: "307"
                 Protocol: "https"
-                ReplaceKeyPrefixWith: "resize/get?key="
+                ReplaceKeyPrefixWith: "${self:provider.stage}/resize/get?key="
               RoutingRuleCondition:
                 HttpErrorCodeReturnedEquals: "404"
                 KeyPrefixEquals: ""
