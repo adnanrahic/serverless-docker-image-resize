@@ -22,3 +22,6 @@ rm domain.txt
 
 # Deploy code again
 sls deploy
+
+# exit container
+exit

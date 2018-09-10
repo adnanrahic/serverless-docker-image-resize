@@ -15,31 +15,37 @@ module.exports.resize = async (event) => {
   const match = key.match(/(\d+)x(\d+)\/(.*)/)
   const width = parseInt(match[1], 10)
   const height = parseInt(match[2], 10)
-
   const originalKey = match[3]
   const newKey = '' + width + 'x' + height + '/' + originalKey
 
-  return S3.getObject({ Bucket: BUCKET, Key: originalKey }).promise()
-    .then(data => sharp(data.Body)
+  try {
+    const data = await S3.getObject({
+      Bucket: BUCKET,
+      Key: originalKey
+    }).promise()
+
+    const buffer = await sharp(data.Body)
       .resize(width, height)
       .toFormat('png')
       .toBuffer()
-    )
-    .then(buffer => S3.putObject({
+
+    await S3.putObject({
       Body: buffer,
       Bucket: BUCKET,
       ContentType: 'image/png',
       Key: newKey
     }).promise()
-    )
-    .then(() => ({
+
+    return {
       statusCode: '301',
       headers: {'location': `${URL}/${newKey}`},
       body: ''
-    })
-    )
-    .catch(err => {
-      console.error(err)
-      return err
-    })
+    }
+  } catch (err) {
+    console.error(err)
+    return {
+      statusCode: '500',
+      body: err.message
+    }
+  }
 }
