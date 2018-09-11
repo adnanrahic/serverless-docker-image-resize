@@ -9,7 +9,7 @@ custom:
   #   createRoute53Record: true
 
 plugins:
-  - serverless-offline
+  # - serverless-offline
   # - serverless-domain-manager
 
 provider:

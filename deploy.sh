@@ -23,5 +23,5 @@ rm domain.txt
 # Deploy code again
 sls deploy
 
-# exit container
-exit
+echo "------------------"
+echo "Service deployed. Press CTRL+C to exit."
