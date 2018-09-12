@@ -1,26 +1,16 @@
-service: image-resize-on-the-fly
+service: image-resize-on-the-fly-bucket
 
 custom:
-  secrets: ${file(secrets.json)}
-  # customDomain:
-  #   domainName: ${self:custom.secrets.DOMAIN}
-  #   basePath: ''
-  #   stage: dev
-  #   createRoute53Record: true
-
-plugins:
-  - serverless-plugin-tracing
-  # - serverless-offline
-  # - serverless-domain-manager
-  # - serverless-graph
+  secrets: ${file(../secrets.json)}
 
 provider:
   name: aws
   runtime: nodejs8.10
   stage: ${env:STAGE, 'dev'}
   profile: serverless-admin
-  tracing: true
   region: us-east-1
+  environment:
+    BUCKET: ${self:custom.secrets.BUCKET}
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -30,24 +20,7 @@ provider:
       Action:
         - "s3:PutObject"
       Resource: "arn:aws:s3:::${self:custom.secrets.BUCKET}"
-    - Effect: "Allow"
-      Action:
-        - "xray:PutTraceSegments"
-        - "xray:PutTelemetryRecords"
-      Resource:
-        - "*"
-
-
-  environment:
-    BUCKET: ${self:custom.secrets.BUCKET}
-
-functions:
-  resize:
-    handler: handler.resize
-    events:
-      - http:
-          path: resize/get
-          method: get
+  
 
 resources:
   Resources:
