@@ -9,6 +9,8 @@
   },
   "devDependencies": {
     "serverless-domain-manager": "^2.6.0",
-    "serverless-offline": "^3.16.0"
+    "serverless-graph": "^0.3.2",
+    "serverless-offline": "^3.16.0",
+    "serverless-plugin-tracing": "^2.0.0"
   }
 }

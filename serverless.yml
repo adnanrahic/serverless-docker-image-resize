@@ -9,14 +9,17 @@ custom:
   #   createRoute53Record: true
 
 plugins:
+  - serverless-plugin-tracing
   # - serverless-offline
   # - serverless-domain-manager
+  # - serverless-graph
 
 provider:
   name: aws
   runtime: nodejs8.10
   stage: ${env:STAGE, 'dev'}
   profile: serverless-admin
+  tracing: true
   region: us-east-1
   iamRoleStatements:
     - Effect: "Allow"
@@ -27,6 +30,13 @@ provider:
       Action:
         - "s3:PutObject"
       Resource: "arn:aws:s3:::${self:custom.secrets.BUCKET}"
+    - Effect: "Allow"
+      Action:
+        - "xray:PutTraceSegments"
+        - "xray:PutTelemetryRecords"
+      Resource:
+        - "*"
+
 
   environment:
     BUCKET: ${self:custom.secrets.BUCKET}

@@ -15,7 +15,7 @@ RUN npm install -g serverless
 COPY package.json ./
 
 # Install app dependencies
-RUN npm install --production
+RUN npm install
 
 # Copy source
 COPY . .
