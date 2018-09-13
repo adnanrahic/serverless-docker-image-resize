@@ -1,16 +1,7 @@
-service: image-resize-on-the-fly
+service: image-resize-on-the-fly-bucket
 
 custom:
-  secrets: ${file(secrets.json)}
-  # customDomain:
-  #   domainName: ${self:custom.secrets.DOMAIN}
-  #   basePath: ''
-  #   stage: dev
-  #   createRoute53Record: true
-
-plugins:
-  - serverless-offline
-  # - serverless-domain-manager
+  secrets: ${file(../secrets/secrets.json)}
 
 provider:
   name: aws
@@ -18,30 +9,11 @@ provider:
   stage: ${env:STAGE, 'dev'}
   profile: serverless-admin
   region: us-east-1
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - "s3:ListBucket"
-      Resource: "arn:aws:s3:::${self:custom.secrets.BUCKET}"
-    - Effect: "Allow"
-      Action:
-        - "s3:PutObject"
-      Resource: "arn:aws:s3:::${self:custom.secrets.BUCKET}"
-
   environment:
     BUCKET: ${self:custom.secrets.BUCKET}
 
-functions:
-  resize:
-    handler: handler.resize
-    events:
-      - http:
-          path: resize/get
-          method: get
-
 resources:
   Resources:
-    
     ImageResizeOnTheFly:
       Type: AWS::S3::Bucket
       Properties:
@@ -60,7 +32,6 @@ resources:
               RoutingRuleCondition:
                 HttpErrorCodeReturnedEquals: "404"
                 KeyPrefixEquals: ""
-    
     ImageResizeOnTheFlyPolicy:
       Type: AWS::S3::BucketPolicy
       Properties: 
