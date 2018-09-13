@@ -1,7 +1,7 @@
 service: image-resize-on-the-fly-bucket
 
 custom:
-  secrets: ${file(../secrets.json)}
+  secrets: ${file(../secrets/secrets.json)}
 
 provider:
   name: aws
@@ -11,20 +11,9 @@ provider:
   region: us-east-1
   environment:
     BUCKET: ${self:custom.secrets.BUCKET}
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - "s3:ListBucket"
-      Resource: "arn:aws:s3:::${self:custom.secrets.BUCKET}"
-    - Effect: "Allow"
-      Action:
-        - "s3:PutObject"
-      Resource: "arn:aws:s3:::${self:custom.secrets.BUCKET}"
-  
 
 resources:
   Resources:
-    
     ImageResizeOnTheFly:
       Type: AWS::S3::Bucket
       Properties:
@@ -43,7 +32,6 @@ resources:
               RoutingRuleCondition:
                 HttpErrorCodeReturnedEquals: "404"
                 KeyPrefixEquals: ""
-    
     ImageResizeOnTheFlyPolicy:
       Type: AWS::S3::BucketPolicy
       Properties: 

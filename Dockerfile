@@ -12,12 +12,13 @@ RUN yum -y install nodejs
 RUN npm install -g serverless
 
 # COPY package.json .
-COPY package.json ./
-
-# Install app dependencies
-RUN npm install
+# COPY package.json ./
 
 # Copy source
 COPY . .
 
+# Install app dependencies
+RUN cd /deploy/functions && npm install && cd /deploy
+
+#  Run deploy script
 CMD ./deploy.sh ; sleep infinity

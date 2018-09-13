@@ -1,7 +1,7 @@
-service: image-resize-on-the-fly
+service: image-resize-on-the-fly-functions
 
 custom:
-  secrets: ${file(../secrets.json)}
+  secrets: ${file(../secrets/secrets.json)}
   # customDomain:
   #   domainName: ${self:custom.secrets.DOMAIN}
   #   basePath: ''
@@ -20,10 +20,18 @@ provider:
   stage: ${env:STAGE, 'dev'}
   profile: serverless-admin
   tracing: true
-  region: us-east-1
+  region: ${env:REGION, 'us-east-1'}
   environment:
     BUCKET: ${self:custom.secrets.BUCKET}
   iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:ListBucket"
+      Resource: "arn:aws:s3:::${self:custom.secrets.BUCKET}"
+    - Effect: "Allow"
+      Action:
+        - "s3:PutObject"
+      Resource: "arn:aws:s3:::${self:custom.secrets.BUCKET}"
     - Effect: "Allow"
       Action:
         - "xray:PutTraceSegments"
@@ -33,7 +41,7 @@ provider:
 
 functions:
   resize:
-    handler: handler.resize
+    handler: resize.handler
     events:
       - http:
           path: resize/get

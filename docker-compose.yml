@@ -1,6 +1,10 @@
 version: "3"
 services:
   image-resize-on-the-fly:
-    build: .
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./secrets:/deploy/secrets
     env_file:
-      - sls-secrets.env
+      - ./secrets/sls-secrets.env

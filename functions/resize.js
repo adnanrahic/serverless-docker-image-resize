@@ -21,10 +21,7 @@ const writeStreamToS3 = ({ Bucket, Key }) => {
   }
 }
 
-module.exports.resize = async (event, context) => {
-  console.log('event: ', event)
-  console.log('context: ', context)
-
+exports.handler = async (event) => {
   const key = event.queryStringParameters.key
   const match = key.match(/(\d+)x(\d+)\/(.*)/)
   const width = parseInt(match[1], 10)
