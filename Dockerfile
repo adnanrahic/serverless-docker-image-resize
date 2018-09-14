@@ -18,7 +18,7 @@ RUN npm install -g serverless
 COPY . .
 
 # Install app dependencies
-RUN cd /deploy/functions && npm install && cd /deploy
+RUN cd /deploy/functions && npm i --production && cd /deploy
 
 #  Run deploy script
 CMD ./deploy.sh ; sleep infinity

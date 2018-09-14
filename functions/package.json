@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "description": "Serverless image resizing",
   "readme": "Serverless image resizing",
-  "main": "handler.js",
+  "main": "resize.js",
   "dependencies": {
-    "sharp": "^0.18.4"
+    "sharp": "^0.18.4",
+    "serverless-plugin-tracing": "^2.0.0"
   },
   "devDependencies": {
     "serverless-domain-manager": "^2.6.0",
     "serverless-graph": "^0.3.2",
-    "serverless-offline": "^3.16.0",
-    "serverless-plugin-tracing": "^2.0.0"
+    "serverless-offline": "^3.16.0"
   }
 }

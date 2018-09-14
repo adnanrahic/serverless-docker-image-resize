@@ -2,7 +2,7 @@
 stage=${STAGE}
 region=${REGION}
 bucket=${BUCKET}
-secrets='../secrets/secrets.json'
+secrets='/deploy/secrets/secrets.json'
 
 cd /deploy
 
@@ -38,22 +38,7 @@ echo "  $id"
 rm domain.txt
 rm id.txt
 
-echo "------------------"
-echo 'Replace 1 started.'
-# replace when never replaced before
-sed -i "s@REPLACE_ME@$domain@g" $secrets
-echo 'Replace 1 done.'
-
-# replace when deployment needs updating
-regexp="s@\"DOMAIN\":\ \"(.*)\.execute-api.$region.amazonaws.com\"@\"DOMAIN\":\ \"$id.execute-api.$region.amazonaws.com\"@g"
-
-echo "------------------"
-echo 'Replace 2 started.'
-# copy replace 'sed without -i'
-tmp_secrets='/tmp/secrets.json'
-sed -E "$regexp" $secrets > $tmp_secrets && cp $tmp_secrets $secrets
-rm $tmp_secrets
-echo 'Replace 2 done.'
+echo "{\"DOMAIN\":\"$domain\"}" > $secrets
 
 cd /deploy/bucket
 

@@ -1,18 +1,7 @@
 service: image-resize-on-the-fly-functions
 
-custom:
-  secrets: ${file(../secrets/secrets.json)}
-  # customDomain:
-  #   domainName: ${self:custom.secrets.DOMAIN}
-  #   basePath: ''
-  #   stage: dev
-  #   createRoute53Record: true
-
 plugins:
   - serverless-plugin-tracing
-  # - serverless-offline
-  # - serverless-domain-manager
-  # - serverless-graph
 
 provider:
   name: aws
