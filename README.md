@@ -113,4 +113,4 @@ This will resize the image in the fly and send you back the resized image while 
 The original tutorial for resizing S3 images I followed can be found [here](https://aws.amazon.com/blogs/compute/resize-images-on-the-fly-with-amazon-s3-aws-lambda-and-amazon-api-gateway/)!
 
 ## Log/Trace output
-![Log and trace output](https://raw.githubusercontent.com/adnanrahic/cdn/master/image-resize-on-the-fly/log-trace-image-resize-on-the-fly.png)
+![Log and trace output](https://raw.githubusercontent.com/adnanrahic/cdn/f2751544e20234e6ae6093624713ab76d7ff30cc/image-resize-on-the-fly/log-trace-image-resize-on-the-fly.png)
