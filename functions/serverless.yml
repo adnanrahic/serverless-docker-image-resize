@@ -12,6 +12,7 @@ provider:
   region: ${env:REGION, 'us-east-1'}
   environment:
     BUCKET: ${env:BUCKET}
+    REGION: ${env:REGION}
   iamRoleStatements:
     - Effect: "Allow"
       Action:

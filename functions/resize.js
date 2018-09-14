@@ -5,7 +5,7 @@ const S3 = new AWS.S3({
 })
 const sharp = require('sharp')
 const BUCKET = process.env.BUCKET
-const URL = `http://${process.env.BUCKET}.s3-website.us-east-1.amazonaws.com`
+const URL = `http://${process.env.BUCKET}.s3-website.${process.env.REGION}.amazonaws.com`
 
 // create the write stream abstraction for uploading data to S3
 const writeStreamToS3 = ({ Bucket, Key }) => {
@@ -30,8 +30,7 @@ exports.handler = async (event) => {
   const newKey = '' + width + 'x' + height + '/' + originalKey
 
   try {
-    // location of the resized image
-    const resizedImageLocation = `${URL}/${newKey}`
+    const imageLocation = `${URL}/${newKey}`
 
     // sharp resize stream
     const resize = sharp()
@@ -49,18 +48,21 @@ exports.handler = async (event) => {
 
     // wait for the stream to finish
     const uploadedData = await uploadFinished
-    console.log({
+    console.log('Data: ', {
       ...uploadedData,
       BucketEndpoint: URL,
-      ImageURL: resizedImageLocation
+      ImageURL: imageLocation
     }) // log data to Dashbird
 
-    // return a 301 redirect to the newly created resource in S3
-    return {
+    const response = {
       statusCode: '301',
-      headers: { 'location': resizedImageLocation },
+      headers: { 'location': imageLocation },
       body: ''
     }
+    console.log('Response: ', response)
+
+    // return a 301 redirect to the newly created resource in S3
+    return response
   } catch (err) {
     console.error(err)
     return {

@@ -5,8 +5,8 @@
   "readme": "Serverless image resizing",
   "main": "resize.js",
   "dependencies": {
-    "sharp": "^0.18.4",
-    "serverless-plugin-tracing": "^2.0.0"
+    "serverless-plugin-tracing": "^2.0.0",
+    "sharp": "^0.18.4"
   },
   "devDependencies": {
     "serverless-domain-manager": "^2.6.0",
