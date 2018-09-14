@@ -10,7 +10,7 @@ provider:
   profile: serverless-admin
   region: us-east-1
   environment:
-    BUCKET: ${self:custom.secrets.BUCKET}
+    BUCKET: ${env:BUCKET}
 
 resources:
   Resources:
@@ -18,7 +18,7 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         AccessControl: PublicReadWrite
-        BucketName: ${self:custom.secrets.BUCKET}
+        BucketName: ${env:BUCKET}
         WebsiteConfiguration:
           ErrorDocument: error.html
           IndexDocument: index.html

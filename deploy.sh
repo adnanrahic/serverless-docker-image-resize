@@ -1,6 +1,7 @@
 # variables
 stage=${STAGE}
 region=${REGION}
+bucket=${BUCKET}
 secrets='../secrets/secrets.json'
 
 cd /deploy
@@ -13,7 +14,7 @@ cd /deploy/functions
 
 # Deploy code
 echo "------------------"
-echo 'Running deploy function...'
+echo 'Deploying function...'
 echo "------------------"
 sls deploy
 
@@ -27,11 +28,12 @@ domain=$(cat domain.txt)
 sed "s@.execute-api.$region.amazonaws.com@@g" domain.txt > id.txt
 id=$(cat id.txt)
 
-echo "------------------domain"
-echo $domain
-echo "------------------id"
-echo $id
-echo "------------------end"
+echo "------------------"
+echo "Domain:"
+echo "  $domain"
+echo "------------------"
+echo "API ID:"
+echo "  $id"
 
 rm domain.txt
 rm id.txt
@@ -44,7 +46,6 @@ echo 'Replace 1 done.'
 
 # replace when deployment needs updating
 regexp="s@\"DOMAIN\":\ \"(.*)\.execute-api.$region.amazonaws.com\"@\"DOMAIN\":\ \"$id.execute-api.$region.amazonaws.com\"@g"
-# sed -i -E $regexp $secrets
 
 echo "------------------"
 echo 'Replace 2 started.'
@@ -58,9 +59,12 @@ cd /deploy/bucket
 
 # Deploy bucket config
 echo "------------------"
-echo 'Running deploy bucket...'
-echo "------------------"
+echo 'Deploying bucket...'
 sls deploy
+
+echo "------------------"
+echo 'Bucket endpoint:'
+echo "  http://$bucket.s3-website.$region.amazonaws.com/"
 
 # Deploy domain
 # sls create_domain

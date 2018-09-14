@@ -22,16 +22,16 @@ provider:
   tracing: true
   region: ${env:REGION, 'us-east-1'}
   environment:
-    BUCKET: ${self:custom.secrets.BUCKET}
+    BUCKET: ${env:BUCKET}
   iamRoleStatements:
     - Effect: "Allow"
       Action:
         - "s3:ListBucket"
-      Resource: "arn:aws:s3:::${self:custom.secrets.BUCKET}"
+      Resource: "arn:aws:s3:::${env:BUCKET}"
     - Effect: "Allow"
       Action:
         - "s3:PutObject"
-      Resource: "arn:aws:s3:::${self:custom.secrets.BUCKET}"
+      Resource: "arn:aws:s3:::${env:BUCKET}"
     - Effect: "Allow"
       Action:
         - "xray:PutTraceSegments"

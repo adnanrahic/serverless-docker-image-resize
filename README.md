@@ -69,7 +69,6 @@ Copy this snippet into your `secrets.json` file.
 ```json
 {
   "DOMAIN": "REPLACE_ME", // WILL BE REPLACED AUTOMATICALLY, DON'T TOUCH IT
-  "BUCKET": "images.your-domain.com" // CHANGE THIS VALUE TO THE NAME YOU WANT YOUR BUCKET TO BE CALLED
 }
 ```
 
@@ -81,6 +80,7 @@ SLS_KEY=XXX
 SLS_SECRET=YYY
 STAGE=dev
 REGION=us-east-1
+BUCKET=images.your-domain.com
 ```
 
 ### Run Docker Compose
