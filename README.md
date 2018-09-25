@@ -67,7 +67,7 @@ All dependencies are installed. Now, deployment is a breeze.
 
 The `deploy.sh` script will autogenerate this file. No need to touch it at all.
 
-#### 2. `sls-secrets.env`
+#### 2. `secrets.env`
 
 Add your secret keys and configuration variables here.
 ```env
@@ -104,7 +104,7 @@ Or you can access the lambda function directly.
 
 Example 2:
 ```
-https://LAMBDA_ID.execute-api.REGION.amazonaws.com/dev/resize/get?key=420x360/IMAGE_NAME.jpg
+https://LAMBDA_ID.execute-api.REGION.amazonaws.com/dev/resize?key=420x360/IMAGE_NAME.jpg
 ```
 
 This will resize the image in the fly and send you back the resized image while storing it for further reference.
