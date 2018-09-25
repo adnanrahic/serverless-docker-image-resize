@@ -7,6 +7,10 @@ const sharp = require('sharp')
 const BUCKET = process.env.BUCKET
 const URL = `http://${process.env.BUCKET}.s3-website.${process.env.REGION}.amazonaws.com`
 
+// create the read stream abstraction for downloading data from S3
+const readStreamFromS3 = ({ Bucket, Key }) => {
+  return S3.getObject({ Bucket, Key }).createReadStream()
+}
 // create the write stream abstraction for uploading data to S3
 const writeStreamToS3 = ({ Bucket, Key }) => {
   const pass = new stream.PassThrough()
@@ -20,6 +24,12 @@ const writeStreamToS3 = ({ Bucket, Key }) => {
     }).promise()
   }
 }
+// sharp resize stream
+const streamToSharp = ({ width, height }) => {
+  return sharp()
+    .resize(width, height)
+    .toFormat('png')
+}
 
 exports.handler = async (event) => {
   const key = event.queryStringParameters.key
@@ -28,41 +38,35 @@ exports.handler = async (event) => {
   const height = parseInt(match[2], 10)
   const originalKey = match[3]
   const newKey = '' + width + 'x' + height + '/' + originalKey
+  const imageLocation = `${URL}/${newKey}`
 
   try {
-    const imageLocation = `${URL}/${newKey}`
-
-    // sharp resize stream
-    const resize = sharp()
-      .resize(width, height)
-      .toFormat('png')
-
-    // create the read and write streams from and to S3
-    const readStream = S3.getObject({ Bucket: BUCKET, Key: originalKey }).createReadStream()
+    // create the read and write streams from and to S3 and the Sharp resize stream
+    const readStream = readStreamFromS3({ Bucket: BUCKET, Key: originalKey })
+    const resizeStream = streamToSharp({ width, height })
     const { writeStream, uploadFinished } = writeStreamToS3({ Bucket: BUCKET, Key: newKey })
 
     // trigger the stream
     readStream
-      .pipe(resize)
+      .pipe(resizeStream)
       .pipe(writeStream)
 
     // wait for the stream to finish
     const uploadedData = await uploadFinished
+
+    // log data to Dashbird
     console.log('Data: ', {
       ...uploadedData,
       BucketEndpoint: URL,
       ImageURL: imageLocation
-    }) // log data to Dashbird
+    })
 
-    const response = {
+    // return a 301 redirect to the newly created resource in S3
+    return {
       statusCode: '301',
       headers: { 'location': imageLocation },
       body: ''
     }
-    console.log('Response: ', response)
-
-    // return a 301 redirect to the newly created resource in S3
-    return response
   } catch (err) {
     console.error(err)
     return {

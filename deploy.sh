@@ -51,8 +51,5 @@ echo "------------------"
 echo 'Bucket endpoint:'
 echo "  http://$bucket.s3-website.$region.amazonaws.com/"
 
-# Deploy domain
-# sls create_domain
-
 echo "------------------"
 echo "Service deployed. Press CTRL+C to exit."

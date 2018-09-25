@@ -34,5 +34,5 @@ functions:
     handler: resize.handler
     events:
       - http:
-          path: resize/get
+          path: resize
           method: get

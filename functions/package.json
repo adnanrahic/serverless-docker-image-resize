@@ -2,15 +2,9 @@
   "name": "image-resize",
   "version": "1.0.0",
   "description": "Serverless image resizing",
-  "readme": "Serverless image resizing",
   "main": "resize.js",
   "dependencies": {
     "serverless-plugin-tracing": "^2.0.0",
     "sharp": "^0.18.4"
-  },
-  "devDependencies": {
-    "serverless-domain-manager": "^2.6.0",
-    "serverless-graph": "^0.3.2",
-    "serverless-offline": "^3.16.0"
   }
 }

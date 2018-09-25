@@ -7,4 +7,4 @@ jspm_packages
 
 # Secrets
 secrets.json
-sls-secrets.env
+secrets.env

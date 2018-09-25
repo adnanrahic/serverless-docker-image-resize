@@ -28,7 +28,7 @@ resources:
                 HostName: ${self:custom.secrets.DOMAIN}
                 HttpRedirectCode: "307"
                 Protocol: "https"
-                ReplaceKeyPrefixWith: "${self:provider.stage}/resize/get?key="
+                ReplaceKeyPrefixWith: "${self:provider.stage}/resize?key="
               RoutingRuleCondition:
                 HttpErrorCodeReturnedEquals: "404"
                 KeyPrefixEquals: ""
