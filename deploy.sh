@@ -4,15 +4,17 @@ region=${REGION}
 bucket=${BUCKET}
 secrets='/deploy/secrets/secrets.json'
 
-cd /deploy
-
-# REPLACE `XYZ` WITH YOUR KEYS
-sls config credentials --provider aws --key ${SLS_KEY} --secret ${SLS_SECRET} --profile serverless-admin
+# Configure your Serverless installation to talk to your AWS account
+sls config credentials \
+  --provider aws \
+  --key ${SLS_KEY} \
+  --secret ${SLS_SECRET} \
+  --profile serverless-admin
 
 # cd into functions dir
 cd /deploy/functions
 
-# Deploy code
+# Deploy functions
 echo "------------------"
 echo 'Deploying function...'
 echo "------------------"
