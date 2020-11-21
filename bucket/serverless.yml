@@ -5,7 +5,7 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs12.x
   stage: ${env:STAGE, 'dev'}
   profile: serverless-admin
   region: us-east-1
