@@ -8,3 +8,6 @@ jspm_packages
 # Secrets
 secrets.json
 secrets.env
+
+# VS Code
+.vscode
