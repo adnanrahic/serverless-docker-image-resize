@@ -5,9 +5,9 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs12.x
   stage: ${env:STAGE, 'dev'}
-  profile: serverless-admin
+  profile: ${env:PROFILE, 'default'}
   tracing: true
   region: ${env:REGION, 'us-east-1'}
   environment:

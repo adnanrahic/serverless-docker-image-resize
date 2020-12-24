@@ -2,3 +2,4 @@ node_modules
 .serverless
 functions/.serverless
 functions/node_modules
+.vscode
