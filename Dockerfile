@@ -5,7 +5,7 @@ WORKDIR /deploy
 
 # Install system dependencies
 RUN yum -y install make gcc*
-RUN curl --silent --location https://rpm.nodesource.com/setup_8.x | bash -
+RUN curl --silent --location https://rpm.nodesource.com/setup_12.x | bash -
 RUN yum -y install nodejs
 
 # Install serverless
