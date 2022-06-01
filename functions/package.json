@@ -5,6 +5,6 @@
   "main": "resize.js",
   "dependencies": {
     "serverless-plugin-tracing": "^2.0.0",
-    "sharp": "^0.26.3"
+    "sharp": "^0.30.5"
   }
 }
